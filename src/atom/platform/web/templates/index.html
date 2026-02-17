@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="grain"></div>
+  <main class="layout">
+    <header class="hero">
+      <p class="eyebrow">ATOM SCIENTIFIC INTELLIGENCE IDE</p>
+      <h1>DaVinci Meets Terminal</h1>
+      <p class="sub">
+        Scientific design and control orchestration with auditability, precision contracts,
+        curated simulator demos, and grounded experiment intelligence.
+      </p>
+      <div class="mission-strip" role="tablist" aria-label="Mission intent">
+        <button class="mission-mode" data-intent="scientific_discovery" type="button">Discovery</button>
+        <button class="mission-mode" data-intent="inverse_design" type="button">Inverse</button>
+        <button class="mission-mode" data-intent="engineering" type="button">Engineering</button>
+        <button class="mission-mode" data-intent="control" type="button">Control</button>
+      </div>
+      <div class="hero-meta">
+        <span class="hero-chip">Reliability Kernel: Active</span>
+        <span class="hero-chip">Replay Determinism: Enforced</span>
+        <span class="hero-chip">Trust Surface: Packetized</span>
+        <span class="hero-chip">Experiment Studio: Live</span>
+        <span class="hero-chip">Supersonic Telemetry: Live</span>
+        <span class="hero-chip">Grounded Assistant: Enabled</span>
+      </div>
+    </header>
+
+    <section class="panel panel-settings">
+      <h2>Interface Settings</h2>
+      <p class="panel-lead">
+        Operator-focused controls for cadence, density, and evidence visibility.
+      </p>
+      <div class="settings-grid">
+        <label>
+          Refresh Interval
+          <select id="refresh-interval-select">
+            <option value="1000">1.0s</option>
+            <option value="2500" selected>2.5s</option>
+            <option value="5000">5.0s</option>
+            <option value="10000">10.0s</option>
+          </select>
+        </label>
+        <label>
+          Density
+          <select id="ui-density-select">
+            <option value="comfortable" selected>comfortable</option>
+            <option value="compact">compact</option>
+          </select>
+        </label>
+        <label class="toggle-row">
+          <input id="toggle-raw-panels" type="checkbox">
+          <span>Show raw evidence panels</span>
+        </label>
+        <label class="toggle-row">
+          <input id="toggle-motion" type="checkbox" checked>
+          <span>Enable motion and transitions</span>
+        </label>
+        <div class="settings-action">
+          <button id="show-onboarding-btn" type="button">Show Launch Director</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="onboarding-panel" class="panel panel-onboarding">
+      <h2>Launch Director</h2>
+      <p class="panel-lead">
+        Guided path from zero state to a credible live demo in under two minutes.
+      </p>
+      <div class="onboarding-grid">
+        <article class="onboarding-card">
+          <h3>Quick Start</h3>
+          <p>Run the recommended program stack and generate operator evidence fast.</p>
+          <div class="onboarding-actions">
+            <button id="onboarding-start-btn" type="button">Start Guided Launch</button>
+            <button id="onboarding-dismiss-btn" type="button">Dismiss</button>
+          </div>
+          <div class="onboarding-actions">
+            <button id="wizard-load-inverse-btn" type="button">Load Inverse Template</button>
+            <button id="wizard-launch-inverse-btn" type="button">Launch Inverse</button>
+            <button id="wizard-launch-supersonic-btn" type="button">Launch Supersonic</button>
+            <button id="wizard-run-copilot-btn" type="button">Run Copilot Brief</button>
+          </div>
+        </article>
+        <article class="onboarding-card">
+          <h3>Progress Checklist</h3>
+          <ul id="wizard-checklist" class="wizard-checklist">
+            <li id="wizard-step-catalog">Catalog loaded</li>
+            <li id="wizard-step-world">World selected</li>
+            <li id="wizard-step-inverse">Inverse run launched</li>
+            <li id="wizard-step-supersonic">Supersonic run launched</li>
+            <li id="wizard-step-assistant">Copilot brief generated</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel panel-studio">
+      <div class="studio-head">
+        <h2>Experiment Studio</h2>
+        <div class="studio-head-actions">
+          <button id="refresh-studio-btn" type="button">Refresh Catalog</button>
+          <button id="build-director-pack-btn" type="button">Build Director Pack</button>
+        </div>
+      </div>
+      <p class="panel-lead">
+        Scientific IDE surface for simulator-aware demos. Load templates, launch runs,
+        and compare experiment tracks without leaving the console.
+      </p>
+      <div class="panel-scroll-shell">
+        <div class="studio-grid">
+          <article class="studio-block">
+            <h3>Simulator Library</h3>
+            <div id="studio-simulators" class="studio-list"></div>
+          </article>
+          <article class="studio-block">
+            <h3>Demo Programs</h3>
+            <div id="studio-demos" class="studio-list"></div>
+          </article>
+        </div>
+        <pre id="studio-log" class="raw-surface">{ "status": "studio_idle" }</pre>
+      </div>
+    </section>
+
+    <section class="panel panel-form">
+      <h2>Launch Job</h2>
+      <p class="panel-lead">Define the search budget, physics world, and solver backend.</p>
+      <div class="panel-scroll-shell">
+        <div class="geometry-console">
+          <h3>Geometry Assets</h3>
+          <form id="geometry-upload-form">
+            <label>
+              Upload STL/CAD
+              <input id="geometry-file" type="file" accept=".stl,.obj,.ply,.step,.stp,.iges,.igs" required>
+            </label>
+            <button id="geometry-upload-btn" type="submit">Upload Geometry</button>
+          </form>
+          <div id="geometry-list" class="job-list compact"></div>
+        </div>
+        <form id="job-form">
+        <label>
+          Job Name
+          <input name="name" value="inverse_ui_job" required>
+        </label>
+        <label>
+          World
+          <select name="world_spec" id="world-select"></select>
+        </label>
+        <label>
+          Geometry Asset (for custom worlds)
+          <select name="geometry_id" id="geometry-select">
+            <option value="">none</option>
+          </select>
+        </label>
+        <label>
+          Backend
+          <select name="backend">
+            <option value="evolutionary">evolutionary</option>
+            <option value="gradient">gradient</option>
+            <option value="bayesian">bayesian</option>
+          </select>
+        </label>
+        <div class="row">
+          <label>
+            Iterations
+            <input name="iterations" type="number" min="1" value="6">
+          </label>
+          <label>
+            Population
+            <input name="population" type="number" min="1" value="10">
+          </label>
+        </div>
+        <div class="row">
+          <label>
+            Rollout Steps
+            <input name="rollout_steps" type="number" min="4" value="64">
+          </label>
+          <label>
+            Top-K
+            <input name="top_k" type="number" min="1" max="100" value="5">
+          </label>
+        </div>
+        <label>
+          Grid Shape (X,Y,Z)
+          <input name="grid_shape" value="32,32,16">
+        </label>
+        <section class="world-kwargs-panel" aria-labelledby="world-kwargs-title">
+          <h3 id="world-kwargs-title">World Parameters</h3>
+          <p id="world-kwargs-contract-hint" class="world-kwargs-hint">
+            Loading simulator contract...
+          </p>
+          <div id="world-kwargs-fields" class="world-kwargs-fields">
+            <div class="world-kwargs-empty">No contract profile loaded.</div>
+          </div>
+        </section>
+        <button id="submit-btn" type="submit">Execute Inverse Design</button>
+        </form>
+        <p class="hint">
+          OpenAPI: <a href="/docs" target="_blank" rel="noreferrer">/docs</a> |
+          Schema: <a href="/openapi.json" target="_blank" rel="noreferrer">/openapi.json</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="panel panel-jobs">
+      <h2>Job Queue</h2>
+      <div id="status-matrix" class="status-matrix">
+        <span class="matrix-chip queued">queued: 0</span>
+        <span class="matrix-chip running">running: 0</span>
+        <span class="matrix-chip succeeded">succeeded: 0</span>
+        <span class="matrix-chip failed">failed: 0</span>
+        <span class="matrix-chip cancelled">cancelled: 0</span>
+      </div>
+      <div id="job-list" class="job-list"></div>
+    </section>
+
+    <section class="panel panel-challenge">
+      <h2>Supersonic Challenge</h2>
+      <p class="panel-lead">Launch wedge-control runs and stream shock telemetry.</p>
+      <div class="panel-scroll-shell">
+        <form id="supersonic-form">
+          <div class="row">
+            <label>
+              Run Name
+              <input name="name" value="supersonic_ui_job" required>
+            </label>
+            <label>
+              Steps
+              <input name="steps" type="number" min="8" max="20000" value="192">
+            </label>
+          </div>
+          <button id="supersonic-submit-btn" type="submit">Run Supersonic Challenge</button>
+        </form>
+        <div class="mission-control-bar">
+          <label>
+            Bookmark Note
+            <input
+              id="supersonic-bookmark-note"
+              type="text"
+              placeholder="mark event / mitigation / anomaly"
+            >
+          </label>
+          <div class="mission-control-actions">
+            <button id="supersonic-pause-btn" type="button">Pause</button>
+            <button id="supersonic-resume-btn" type="button">Resume</button>
+            <button id="supersonic-cancel-btn" type="button">Cancel</button>
+            <button id="supersonic-bookmark-btn" type="button">Bookmark</button>
+          </div>
+        </div>
+        <div id="supersonic-job-list" class="job-list compact"></div>
+        <pre id="supersonic-telemetry" class="raw-surface">{ "status": "no_supersonic_job" }</pre>
+        <div class="mission-feed-grid">
+          <article class="chart-card">
+            <h3>Mission Timeline</h3>
+            <div id="supersonic-timeline" class="mission-feed-list"></div>
+          </article>
+          <article class="chart-card">
+            <h3>Mission Incidents</h3>
+            <div id="supersonic-incidents" class="mission-feed-list"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-observability">
+      <h2>Observability</h2>
+      <p class="panel-lead">Live metrics from selected jobs and telemetry-derived trends.</p>
+      <div class="panel-scroll-shell">
+        <div class="diagnostic-controls">
+        <label>
+          Intent Focus
+          <select id="intent-focus-select">
+            <option value="scientific_discovery">scientific_discovery</option>
+            <option value="inverse_design">inverse_design</option>
+            <option value="engineering">engineering</option>
+            <option value="control">control</option>
+          </select>
+        </label>
+        <label>
+          Diagnostic Mode
+          <select id="diagnostic-mode-select">
+            <option value="overview">overview</option>
+            <option value="live_flow">live_flow</option>
+            <option value="eyes_saliency">eyes_saliency</option>
+            <option value="brain_saliency">brain_saliency</option>
+            <option value="trust_surface">trust_surface</option>
+          </select>
+        </label>
+        <div id="runtime-diagnostics-status" class="diag-status">runtime diagnostics: pending</div>
+        <div class="diagnostic-toggles">
+          <label class="toggle-row slim">
+            <input id="toggle-obstacle-overlay" type="checkbox" checked>
+            <span>Render obstacle overlay</span>
+          </label>
+          <label class="toggle-row slim">
+            <input id="toggle-saliency-focus" type="checkbox" checked>
+            <span>Render saliency focus markers</span>
+          </label>
+        </div>
+        </div>
+        <div class="kpi-grid">
+        <div class="kpi-card">
+          <span>Inverse Best Score</span>
+          <strong id="kpi-inverse-score">n/a</strong>
+        </div>
+        <div class="kpi-card">
+          <span>Inverse Feasible Rate</span>
+          <strong id="kpi-inverse-feasible">n/a</strong>
+        </div>
+        <div class="kpi-card">
+          <span>Supersonic Reward Mean (32)</span>
+          <strong id="kpi-reward">n/a</strong>
+        </div>
+        <div class="kpi-card">
+          <span>Shock Strength Mean (32)</span>
+          <strong id="kpi-shock">n/a</strong>
+        </div>
+        <div class="kpi-card">
+          <span>Shock Reduction Mean (32)</span>
+          <strong id="kpi-reduction">n/a</strong>
+        </div>
+        <div class="kpi-card">
+          <span>Shock Trend (32)</span>
+          <strong id="kpi-shock-trend">n/a</strong>
+        </div>
+        </div>
+        <div class="chart-grid">
+        <article class="chart-card">
+          <h3>Reward vs Shock Reduction</h3>
+          <canvas id="chart-reward" width="760" height="250"></canvas>
+        </article>
+        <article class="chart-card">
+          <h3>Shock Strength vs Jet Power</h3>
+          <canvas id="chart-shock" width="760" height="250"></canvas>
+        </article>
+        </div>
+        <div class="chart-grid single">
+        <article class="chart-card diagnostic-card" data-focus="overview,trust_surface">
+          <h3>Runtime Latent Saliency (Jacobian Proxy)</h3>
+          <canvas id="chart-saliency" width="760" height="220"></canvas>
+          <pre id="runtime-telemetry" class="raw-surface">{ "status": "runtime_telemetry_pending" }</pre>
+        </article>
+        </div>
+        <div class="chart-grid diagnostics-grid">
+        <article class="chart-card diagnostic-card" data-focus="overview,live_flow">
+          <h3>Live Simulation View: Speed</h3>
+          <canvas id="map-live-speed" width="760" height="220"></canvas>
+        </article>
+        <article class="chart-card diagnostic-card" data-focus="overview,live_flow">
+          <h3>Live Simulation View: Density</h3>
+          <canvas id="map-live-density" width="760" height="220"></canvas>
+        </article>
+        <article class="chart-card diagnostic-card" data-focus="overview,live_flow">
+          <h3>Live Simulation View: Divergence</h3>
+          <canvas id="map-live-divergence" width="760" height="220"></canvas>
+        </article>
+        <article class="chart-card diagnostic-card" data-focus="overview,live_flow,eyes_saliency,brain_saliency">
+          <h3>Attention Overlay: Eyes2 + Brain</h3>
+          <canvas id="map-attention-overlay" width="760" height="220"></canvas>
+          <p id="attention-overlay-summary" class="chart-caption">
+            attention alignment pending telemetry...
+          </p>
+        </article>
+        <article class="chart-card diagnostic-card" data-focus="overview,eyes_saliency">
+          <h3>Eyes2 Saliency Map</h3>
+          <canvas id="map-eyes2-saliency" width="760" height="220"></canvas>
+        </article>
+        <article class="chart-card diagnostic-card" data-focus="overview,brain_saliency">
+          <h3>Brain Saliency Map</h3>
+          <canvas id="map-brain-saliency" width="760" height="220"></canvas>
+        </article>
+        <article class="chart-card diagnostic-card" data-focus="overview,trust_surface,brain_saliency">
+          <h3>Theory Feature Importance</h3>
+          <canvas id="chart-theory-importance" width="760" height="220"></canvas>
+        </article>
+        <article class="chart-card diagnostic-card narrative-card" data-focus="overview,control,engineering,trust_surface">
+          <h3>Mission Narrative</h3>
+          <label class="narrative-mode-label">
+            Mode
+            <select id="narrative-mode-select">
+              <option value="off">off</option>
+              <option value="executive" selected>executive</option>
+              <option value="technical">technical</option>
+            </select>
+          </label>
+          <div id="narrative-feed" class="narrative-feed"></div>
+        </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel-assistant">
+      <h2>Scientific Copilot</h2>
+      <p class="panel-lead">
+        Intent-aware assistant grounded in live ATOM artifacts, with deterministic
+        core and optional LLM synthesis.
+      </p>
+      <div class="panel-scroll-shell">
+        <form id="assistant-form">
+        <div class="row">
+          <label>
+            Intent
+            <select id="assistant-intent" name="intent">
+              <option value="scientific_discovery">scientific_discovery</option>
+              <option value="inverse_design">inverse_design</option>
+              <option value="engineering">engineering</option>
+              <option value="control">control</option>
+            </select>
+          </label>
+          <label>
+            Diagnostic Mode
+            <select id="assistant-diagnostic-mode" name="diagnostic_mode">
+              <option value="overview">overview</option>
+              <option value="live_flow">live_flow</option>
+              <option value="eyes_saliency">eyes_saliency</option>
+              <option value="brain_saliency">brain_saliency</option>
+              <option value="trust_surface">trust_surface</option>
+            </select>
+          </label>
+        </div>
+        <label>
+          Engine
+          <select id="assistant-engine" name="engine">
+            <option value="deterministic">deterministic</option>
+            <option value="llm_grounded">llm_grounded</option>
+          </select>
+        </label>
+        <label>
+          Mode
+          <select name="mode">
+            <option value="summary">summary</option>
+            <option value="status">status</option>
+            <option value="risk">risk</option>
+            <option value="next_actions">next_actions</option>
+          </select>
+        </label>
+        <label>
+          Query
+          <textarea
+            name="question"
+            rows="3"
+            placeholder="Assess current design/control posture using selected jobs."
+            required
+          ></textarea>
+        </label>
+        <button id="assistant-submit-btn" type="submit">Query Assistant</button>
+        </form>
+        <pre id="assistant-response" class="raw-surface">{ "status": "assistant_idle" }</pre>
+      </div>
+    </section>
+
+    <section class="panel panel-report">
+      <div class="report-head">
+        <h2>Selected Job Report</h2>
+        <span id="selected-job-label">no job selected</span>
+      </div>
+      <div class="panel-scroll-shell">
+        <pre id="job-report" class="raw-surface">{ "status": "waiting_for_selection" }</pre>
+      </div>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
